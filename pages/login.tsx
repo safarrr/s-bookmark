@@ -22,19 +22,19 @@ const Login: FC<LoginProps> = () => {
   const [handleErorr, setHandleErorr] = useState({ error: false, message: "" });
   const router = useRouter();
   const supabaseClient = useSupabaseClient();
-  const handleDiscordLogin = async () => {
-    const { data, error } = await supabaseClient.auth.signInWithOAuth({
-      provider: "discord",
-      options: {
-        redirectTo: "https://s-bookmark.vercel.app/me",
-      },
-    });
-    if (error) {
-      alert(`terjadi error ${error.name} ${error.message} `);
-    } else {
-      router.push("/");
-    }
-  };
+  // const handleDiscordLogin = async () => {
+  //   const { data, error } = await supabaseClient.auth.signInWithOAuth({
+  //     provider: "discord",
+  //     options: {
+  //       redirectTo: "https://s-bookmark.vercel.app/me",
+  //     },
+  //   });
+  //   if (error) {
+  //     alert(`terjadi error ${error.name} ${error.message} `);
+  //   } else {
+  //     router.push("/");
+  //   }
+  // };
   return (
     <div className="login-bg flex h-screen w-screen items-center justify-center md:justify-start">
       <div className="flex flex-col items-center justify-center space-y-6 rounded-lg bg-white p-5 px-5 md:h-screen md:w-1/2 md:rounded-br-[20%] md:rounded-tr-[10%]">
@@ -62,13 +62,13 @@ const Login: FC<LoginProps> = () => {
           <div className="my-5 rounded-lg border-b-4 border-gray-300 p-1 text-center text-sm text-gray-500">
             Atau
           </div>
-          <button
+          {/* <button
             onClick={handleDiscordLogin}
             className="flex items-center justify-center rounded-full border-2 border-blue-400 px-10 py-2 font-semibold transition-transform ease-linear hover:scale-90 "
           >
             <SiDiscord className="mr-1 text-lg text-blue-500" />
             <span>Discord</span>
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
