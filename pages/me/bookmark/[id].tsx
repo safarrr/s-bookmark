@@ -13,12 +13,7 @@ import { getDomain } from "../../../lib/function";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useStore } from "../../../lib/store"; //
 import { ParsedUrlQuery } from "querystring";
-import {
-  GetServerSidePropsContext,
-  NextApiRequest,
-  NextApiResponse,
-  PreviewData,
-} from "next/types";
+import { GetServerSidePropsContext, PreviewData } from "next/types";
 import { createServerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import Head from "next/head";
 type linkProps = {
@@ -28,10 +23,16 @@ type linkProps = {
   description: string;
 };
 
-interface IdProps {}
-const Id: FC<IdProps> = () => {
+interface IdProps {
+  user: {
+    id: string;
+    email: string;
+    username: string;
+  };
+}
+const Id: FC<IdProps> = ({ user }) => {
   const router = useRouter();
-  const { user, setFolder, folder } = useStore();
+  const { setFolder, folder } = useStore();
   const [identity, setIdentity] = useState({
     name: "",
     description: "",
@@ -53,14 +54,18 @@ const Id: FC<IdProps> = () => {
     if (folder.error) {
       alert("terjadi error: " + folder.error.message);
     } else {
-      setIdentity({
-        name: folder.data.name,
-        description: folder.data.description,
-        id: folder.data.id,
-      });
-      setFolderName(folder.data.name);
-      setFolderDescription(folder.data.description);
-      setLoading(false);
+      if (folder.data.author === user.id) {
+        setIdentity({
+          name: folder.data.name,
+          description: folder.data.description,
+          id: folder.data.id,
+        });
+        setFolderName(folder.data.name);
+        setFolderDescription(folder.data.description);
+        setLoading(false);
+      } else {
+        router.push("/me");
+      }
     }
   };
   const getDataBookmark = async () => {
@@ -398,10 +403,19 @@ export const getServerSideProps = async (
         permanent: false,
       },
     };
+  } else {
+    return {
+      props: {
+        user: {
+          id: session.user.id,
+          email: session.user.email || "",
+          username:
+            session.user.user_metadata.name ||
+            session.user.user_metadata.username,
+        },
+      },
+    };
   }
-  return {
-    props: {},
-  };
   // else {
   //   const { data, error } = await supabase
   //     .from("folder")

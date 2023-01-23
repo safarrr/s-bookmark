@@ -118,9 +118,9 @@ const Me: FC<MeProps> = () => {
                   Bookmark
                 </span>
                 <h2 className="text-2xl font-bold">{v.name}</h2>
-                <button className="text-xl hover:text-blue-600">
+                {/* <button className="text-xl hover:text-blue-600">
                   <AiTwotoneSetting />
-                </button>
+                </button> */}
               </div>
             );
           })}

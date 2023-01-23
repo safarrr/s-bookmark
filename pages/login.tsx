@@ -19,9 +19,6 @@ interface LoginProps {}
 const Login: FC<LoginProps> = () => {
   const [Loading, setLoading] = useState(false);
   const [register, setRegister] = useState(false);
-  const [handleErorr, setHandleErorr] = useState({ error: false, message: "" });
-  const router = useRouter();
-  const supabaseClient = useSupabaseClient();
   // const handleDiscordLogin = async () => {
   //   const { data, error } = await supabaseClient.auth.signInWithOAuth({
   //     provider: "discord",
@@ -59,10 +56,10 @@ const Login: FC<LoginProps> = () => {
             </button>
           </div>
           {register ? <SignUp setRegister={setRegister} /> : <SignIn />}
-          <div className="my-5 rounded-lg border-b-4 border-gray-300 p-1 text-center text-sm text-gray-500">
+          {/* <div className="my-5 rounded-lg border-b-4 border-gray-300 p-1 text-center text-sm text-gray-500">
             Atau
           </div>
-          {/* <button
+          <button
             onClick={handleDiscordLogin}
             className="flex items-center justify-center rounded-full border-2 border-blue-400 px-10 py-2 font-semibold transition-transform ease-linear hover:scale-90 "
           >
