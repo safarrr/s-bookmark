@@ -25,6 +25,9 @@ const Login: FC<LoginProps> = () => {
   const handleDiscordLogin = async () => {
     const { data, error } = await supabaseClient.auth.signInWithOAuth({
       provider: "discord",
+      options: {
+        redirectTo: "https://s-bookmark.vercel.app/me",
+      },
     });
     if (error) {
       alert(`terjadi error ${error.name} ${error.message} `);
